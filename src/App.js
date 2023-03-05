@@ -10,9 +10,10 @@ import axios, { Axios } from 'axios';
 function App() {
 
   const [user, setUser] = useState(null)
+  const [providerName, setProviderName] = useState('')
   const [repoCount, setRepoCount] = useState()
   const [link, setLink] = useState()
-  const [providerName, setProviderName] = useState('')
+
   useEffect(() => {
     window.addEventListener('hashchange', function () {
       checkUser();
@@ -32,10 +33,10 @@ function App() {
 
 
   async function checkUser() {
-    supabase.auth.getUser()
+    await supabase.auth.getUser()
       .then((res) => {
-        setProviderName(res.data.user.app_metadata.provider)
         setUser(res.data.user.user_metadata)
+        setProviderName(res.data.user.app_metadata.provider)
       })
       .catch((err) => { console.log(err) })
   }
@@ -44,12 +45,14 @@ function App() {
     await supabase.auth.signInWithOAuth({
       provider: 'github'
     })
+    setProviderName('')
   }
 
   async function googleSign() {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    await supabase.auth.signInWithOAuth({
       provider: 'google',
     })
+    setProviderName('')
   }
 
 
@@ -70,10 +73,9 @@ function App() {
         {!user ?
           <>
             <h3>Bienvenue sur MyAuth par Djibril SAMASSA</h3>
-            <p>Conncetez vous avec vos comptes d'autres plateforme</p>
+            <p>Connectez vous avec vos comptes d'autres plateforme</p>
           </>
           : null}
-        {console.log(user)}
 
         {user ?
           // CONNECTE AVEC GITHUB
