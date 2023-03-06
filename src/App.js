@@ -92,7 +92,7 @@ function App() {
           providerName === "https://api.github.com" ?
             <>
               <div className='data'>
-                <img className='profpic' src={user.avatar_url} />
+                <img className='profpic github' src={user.avatar_url} />
                 <h3>Bienvenue {user.name} vous êtes connecté avec votre compte Github</h3>
                 <p>Adresse e-mail: {user.email}</p>
                 <p>Nombre de repositories public sur Github : {repoCount?.length}  </p>
